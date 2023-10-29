@@ -1,0 +1,32 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.mainDiv{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(72, 68, 68);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+
+}
+.mainBox{
+    height: 60vh;
+    width: 40vw;
+    background-color: aliceblue;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(4,1fr);
+    gap: 0.8rem;
+
+}
+.box{
+    background-color: rgb(224, 76, 76);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
