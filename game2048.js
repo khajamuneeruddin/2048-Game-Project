@@ -1,6 +1,12 @@
 let arr;
-let mainBox = document.getElementById("mainBox");
-function mainloop(){
+let mainBox = document.getElementById("mainBox");  
+
+
+// This Funtion Will loop the Boxes inside the Board
+
+
+function displayTheBoxeses(){
+    mainBox.innerHTML = ""
     for(let i=0;i<arr.length;i++){
         for(let j=0 ; j<arr.length;j++){
             
@@ -13,17 +19,9 @@ function mainloop(){
         }
     }
 }
-function main(){
-    arr = [
-        [2,8,8,2],
-        [2,2,2,2],
-        [16,8,8,32],
-        [0,0,0,0]
-    ];
-    mainloop()
-    
-}
-main()
+//----------------------------------------------------------------
+
+
 
 function merge(row){
     
@@ -34,20 +32,108 @@ function merge(row){
             
         }
     }
-    // console.log(row)
+ 
     return row
 }
 
 function moveLeft(row){
-    let l = []
-    for(let i of row){
-        if (i!=0){
-            l.push(i)
-        }
-    }
-    return l
+    let filterZeros = row.filter((elem) => elem !==0 )
+    return filterZeros
 }
 
+
+
+// ---------------Rightswip------------------------
+
+
+
+function reverse(row){
+    return row.reverse()
+}
+
+function swipRight(){
+    for(let i=0; i<arr.length;i++){
+        let row = reverse(arr[i])
+        row =moveLeft(row)
+        
+        row = merge(row)
+        row = moveLeft(row)
+        row = addZeros(row)
+        row = reverse(row)
+        arr[i]=row
+      
+    }
+    
+    displayTheBoxeses()
+}
+
+
+
+
+// -----------------Topswip----------------------
+function transpose() {
+    const numRows = arr.length;
+    const numCols = arr[0].length;
+    const transposedArr = [];
+
+    for (let i = 0; i < numCols; i++) {
+        transposedArr[i] = [];
+        for (let j = 0; j < numRows; j++) {
+            transposedArr[i][j] = arr[j][i];
+        }
+    }
+
+    arr = transposedArr;
+}
+
+
+function Topswip(){
+   
+    transpose()
+    
+   
+    for(let i=0; i<arr.length;i++){
+        let row1 =moveLeft(arr[i])
+        
+        let row = merge(row1)
+        row = moveLeft(row)
+        row = addZeros(row)
+        arr[i]=row
+        
+    }
+    transpose()
+    
+    displayTheBoxeses()
+}
+
+
+
+
+//----------------Bottom Swipe ---------------------
+
+
+function Bottomswip(){
+   
+    transpose()
+    
+   
+    for(let i=0; i<arr.length;i++){
+        let row = reverse(arr[i])
+        row =moveLeft(row)
+        
+        row = merge(row)
+        row = moveLeft(row)
+        row = addZeros(row)
+        row = reverse(row)
+        arr[i]=row
+        
+    }
+    transpose()
+    
+    displayTheBoxeses()
+}
+
+// -----------------Leftswip----------------------
 function addZeros(row){
     while(row.length < arr.length){
         row.push(0)
@@ -58,24 +144,59 @@ function addZeros(row){
 function swipLeft(){
     for(let i=0; i<arr.length;i++){
         let row1 =moveLeft(arr[i])
+        console.log(row1)
         
         let row = merge(row1)
         row = moveLeft(row)
         row = addZeros(row)
         arr[i]=row
-        console.log(arr[i])
+        
     }
-    mainBox.innerHTML = ""
-    mainloop()
+    
+    displayTheBoxeses()
 }
+
+//-----------------EventListeners which Helps in Swiping The things in Bord
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 document.addEventListener("keyup",(e)=>{
-    if(e.key ==="ArrowLeft"){
+    if(e.key === "ArrowDown"){
+        Bottomswip()
+    }else if(e.key ==="ArrowUp"){
+        Topswip()
+    }else if(e.key ==="ArrowRight"){
+        
+        swipRight()
+    }else if(e.key ==="ArrowLeft"){
         swipLeft()
+        // move("Up")
     }
 })
 
 
-
-
+function initGame(){
+    arr = [
+        [2,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0],
+        [2,0,0,0]
+    ];
+    displayTheBoxeses()
+    
+}
+initGame()
